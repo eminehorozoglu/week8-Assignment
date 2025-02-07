@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default async function PostPage(){
 
-        const users = await db.query(`select * from city`)
+        const users = await db.query(`select * from city order by city_name asc`)
         console.log(users)
         const wrangleData = users.rows;
         console.log(wrangleData);

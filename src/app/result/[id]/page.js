@@ -9,12 +9,13 @@ import madrid from "@/../public/madrid.jpg";
 import newyork from "@/../public/newyork.jpg";
 import paris from "@/../public/paris.jpg";
 import roma from "@/../public/roma.jpg";
+import Style from "@/app/result/result.module.css"
 const myArray = [{
     id:1,
     image:   <Image
             src={london}
             alt={"Flamingoes flying over a mountain"}
-            width={500}
+            width={750}
             height="fill"
             priority="false"
             placeholder="blur"
@@ -24,7 +25,7 @@ const myArray = [{
     image:   <Image
             src={paris}
             alt={"Flamingoes flying over a mountain"}
-            width={500}
+            width={750}
             height="fill"
             priority="false"
             placeholder="blur"
@@ -34,7 +35,7 @@ const myArray = [{
     image:   <Image
             src={istanbul}
             alt={"Flamingoes flying over a mountain"}
-            width={500}
+            width={750}
             height="fill"
             priority="false"
             placeholder="blur"
@@ -44,7 +45,7 @@ const myArray = [{
     image:   <Image
             src={newyork}
             alt={"Flamingoes flying over a mountain"}
-            width={500}
+            width={750}
             height="fill"
             priority="false"
             placeholder="blur"
@@ -54,7 +55,7 @@ const myArray = [{
     image:   <Image
             src={roma}
             alt={"Flamingoes flying over a mountain"}
-            width={500}
+            width={750}
             height="fill"
             priority="false"
             placeholder="blur"
@@ -64,7 +65,7 @@ const myArray = [{
     image:   <Image
             src={madrid}
             alt={"Flamingoes flying over a mountain"}
-            width={500}
+            width={750}
             height="fill"
             priority="false"
             placeholder="blur"
@@ -77,7 +78,7 @@ export default async function ResultIdPage({ params }) {
     const CommentParams = await params;
     console.log(CommentParams.id);
     const commentdata = await db.query(` SELECT comment.id, city.city_name, comment.user_name, comment.user_comment FROM city
-JOIN comment ON comment.city_id = city.id WHERE city.id = $1`, [
+JOIN comment ON comment.city_id = city.id WHERE city.id = $1 order by comment.id desc`, [
     CommentParams.id,
     ]);
     console.log(commentdata);
@@ -108,8 +109,8 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1`, [
         <>
 
            {
-  wrangleDataCity.map((data)=><div key={data.id}>
-    <h2>{data.city_name}</h2>
+  wrangleDataCity.map((data)=><div key={data.id}className={Style.FormClass} >
+    <h2 className="text-5xl ">{data.city_name}</h2>
     {myArray.map((item) => (
   <div key={item.id}>
     {item.id === data.id && <p>{item.image}</p>}
@@ -118,26 +119,28 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1`, [
     <p>{data.city_intro}</p>
   </div>)
 }
-        <form action={handleSubmit} >
+        <form action={handleSubmit} className={Style.FormClass}  >
             <label htmlFor="user_name">Name:</label>
-            <input type="text" name="user_name" id="user_name" className="text-emerald-700" />
+            <input type="text" name="user_name" id="user_name" className="text-blue-700" />
             <label htmlFor="user_comment">Message :</label>
-            <textarea id="user_comment" name="user_comment" className="text-emerald-700" rows="4" cols="50"/>
-            <button type="submit" className="border-amber-600 border-4 m-4 hover:bg-sky-800">Submit your data</button>
+            <textarea id="user_comment" name="user_comment" className="text-blue-700" rows="4" cols="40"/>
+            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit data</button>
         </form>
-        <h1>Comment Page</h1>
+     
      
         {
-  wrangleData.map((data)=><div htmlFor="id"  key={data.id}>
-    <h2>{data.user_name}</h2>
+  wrangleData.map((data)=><div htmlFor="id"  key={data.id} className={Style.Comment}>
+
+    <h2 >{data.user_name}</h2>
     <p>{data.user_comment}</p>
+    <p>{data.id}</p>
     <button type="submit" onClick={ async function deletedata() {
     "use server";
 await db.query(`delete from comment where id = $1`,[data.id]);
 revalidatePath("/result");
 redirect("/result/1");
 
-}} className="border-amber-600 border-4 m-4 hover:bg-sky-800">delete</button>
+}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">delete</button>
   </div>)
 }
 

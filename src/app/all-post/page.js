@@ -71,7 +71,7 @@ const myArray = [{
 
 export default async function PostPage(){
 
-        const users = await db.query(`select * from city`)
+        const users = await db.query(`select * from city order by city_name asc`)
         console.log(users)
         const wrangleData = users.rows;
         console.log(wrangleData);
@@ -84,7 +84,11 @@ export default async function PostPage(){
   {
   wrangleData.map((data)=><div key={data.id}>
     <Link href={`/result/${data.id}`}>{data.city_name}</Link>
-    <p>{data.city_intro}</p> 
+    {myArray.map((item) => (
+  <div key={item.id}>
+    {item.id === data.id && <p>{item.image}</p>}
+  </div>
+))}
   </div>)
 }
 {myArray.map((item) => (

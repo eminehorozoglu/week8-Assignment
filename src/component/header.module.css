@@ -1,0 +1,10 @@
+.menu{
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  align-items:center;
+  justify-content:space-evenly;
+  flex-wrap: wrap;
+  font-size: 2rem;
+  color: #7e093a;
+}
