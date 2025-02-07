@@ -9,7 +9,67 @@ import madrid from "@/../public/madrid.jpg";
 import newyork from "@/../public/newyork.jpg";
 import paris from "@/../public/paris.jpg";
 import roma from "@/../public/roma.jpg";
-
+const myArray = [{
+    id:1,
+    image:   <Image
+            src={london}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 2,
+    image:   <Image
+            src={paris}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 3,
+    image:   <Image
+            src={istanbul}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 4,
+    image:   <Image
+            src={newyork}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 5,
+    image:   <Image
+            src={roma}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 6,
+    image:   <Image
+            src={madrid}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},];
 
 
 export default async function ResultIdPage({ params }) {
@@ -50,6 +110,11 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1`, [
            {
   wrangleDataCity.map((data)=><div key={data.id}>
     <h2>{data.city_name}</h2>
+    {myArray.map((item) => (
+  <div key={item.id}>
+    {item.id === data.id && <p>{item.image}</p>}
+  </div>
+))}
     <p>{data.city_intro}</p>
   </div>)
 }

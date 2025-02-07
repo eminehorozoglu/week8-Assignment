@@ -7,8 +7,7 @@ import madrid from "@/../public/madrid.jpg";
 import newyork from "@/../public/newyork.jpg";
 import paris from "@/../public/paris.jpg";
 import roma from "@/../public/roma.jpg";
-
-export const myArray = [{
+const myArray = [{
     id:1,
     image:   <Image
             src={london}
@@ -90,7 +89,6 @@ export default async function PostPage(){
 }
 {myArray.map((item) => (
   <div key={item.id}>
-    <p>{item.id}</p>
     {item.id === 1 && <p>{item.image}</p>}
   </div>
 ))}
