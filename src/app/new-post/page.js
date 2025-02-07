@@ -1,38 +1,100 @@
 import {db} from "@/app/utils/dbConnection"
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import istanbul from "@/../public/istanbul.jpg";
+import london from "@/../public/london.jpg";
+import madrid from "@/../public/madrid.jpg";
+import newyork from "@/../public/newyork.jpg";
+import paris from "@/../public/paris.jpg";
+import roma from "@/../public/roma.jpg";
+
+export const myArray = [{
+    id:1,
+    image:   <Image
+            src={london}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 2,
+    image:   <Image
+            src={paris}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 3,
+    image:   <Image
+            src={istanbul}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 4,
+    image:   <Image
+            src={newyork}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 5,
+    image:   <Image
+            src={roma}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},{
+    id: 6,
+    image:   <Image
+            src={madrid}
+            alt={"Flamingoes flying over a mountain"}
+            width={500}
+            height="fill"
+            priority="false"
+            placeholder="blur"
+          />,
+},];
+
+export default async function PostPage(){
+
+        const users = await db.query(`select * from city`)
+        console.log(users)
+        const wrangleData = users.rows;
+        console.log(wrangleData);
 
 
-
-export default function NewPost(){
-
-    async function handleSubmit(formValues) {
-        "use server";
-
-        const  userName = formValues.get("user_name");
-        const userComment = formValues.get("user_comment");
-        const cityId = formValues.get("city_id");
-         
-     
-        db.query(`insert into comment (user_name, user_comment,city_id) values ($1, $2, $3)`,[userName,userComment,cityId]);
-        revalidatePath("/new-post");
-        redirect("/result");
-    
-    }
 
     return(
         <>
-        <h1>You can create new users</h1>
+        <h1>Read Post Page</h1>
+  {
+  wrangleData.map((data)=><div key={data.id}>
+    <Link href={`/result/${data.id}`}>{data.city_name}</Link>
+    <p>{data.city_intro}</p> 
+  </div>)
+}
+{myArray.map((item) => (
+  <div key={item.id}>
+    <p>{item.id}</p>
+    {item.id === 1 && <p>{item.image}</p>}
+  </div>
+))}
 
-        <form action={handleSubmit} >
-            <label htmlFor="user_name">Name:</label>
-            <input type="text" name="user_name" id="user_name" className="text-emerald-600" />
-            <label htmlFor="user_comment">Message :</label>
-            <textarea id="user_comment" name="user_comment" className="text-emerald-600" rows="4" cols="50"/>
-            <label htmlFor="city_id">City Id:</label>
-            <input type="number" name="city_id" id="city_id" className="text-emerald-600" />
-            <button type="submit" className="border-amber-600 border-4 m-4 hover:bg-sky-700">Submit your data</button>
-        </form>
         </>
     )
-    }
+}
