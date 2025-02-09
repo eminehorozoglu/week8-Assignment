@@ -1,0 +1,16 @@
+.Result{
+    display: flex;
+    text-align:center;
+    flex-direction: row;
+    align-items:flex-start;
+    padding: 15px;
+    color: #20097e;
+}
+.h1{
+    padding: 15px;
+    color: #20097e;
+    font-size: 3rem;  
+    background-color:#90baf4; 
+    text-align:center;
+    padding: 15px;
+}

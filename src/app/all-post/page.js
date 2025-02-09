@@ -1,68 +1,83 @@
 import {db} from "@/app/utils/dbConnection"
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import istanbul from "@/../public/istanbul.jpg";
 import london from "@/../public/london.jpg";
 import madrid from "@/../public/madrid.jpg";
 import newyork from "@/../public/newyork.jpg";
 import paris from "@/../public/paris.jpg";
-import roma from "@/../public/roma.jpg";
+import rome from "@/../public/rome.jpg";
+import Styling from "@/app/all-post/allPost.module.css"
+
+export const metadata = {
+  title: "Comments about cities",
+  description: "You can delete comments about cities if you want.",
+};
+
 const myArray = [{
     id:1,
-    image:   <Image
+    title:"London",
+    image:   <Image className="rounded-3xl"
             src={london}
-            alt={"Flamingoes flying over a mountain"}
-            width={500}
+            alt={"London City View"}
+            width={120}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
 },{
     id: 2,
-    image:   <Image
+    title:"Paris",
+    image:   <Image className="rounded-3xl"
             src={paris}
-            alt={"Flamingoes flying over a mountain"}
-            width={500}
+            alt={"Paris City View"}
+            width={120}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
 },{
     id: 3,
-    image:   <Image
+    title:"Istanbul",
+    image:   <Image className="rounded-3xl"
             src={istanbul}
-            alt={"Flamingoes flying over a mountain"}
-            width={500}
+            alt={"Istanbul City View"}
+            width={120}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
 },{
     id: 4,
-    image:   <Image
+    title:"New York",
+    image:   <Image className="rounded-3xl"
             src={newyork}
-            alt={"Flamingoes flying over a mountain"}
-            width={500}
+            alt={"New York City View"}
+            width={120}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
 },{
     id: 5,
-    image:   <Image
-            src={roma}
-            alt={"Flamingoes flying over a mountain"}
-            width={500}
+    title:"Rome",
+    image:   <Image className="rounded-3xl"
+            src={rome}
+            alt={"Rome City View"}
+            width={120}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
 },{
     id: 6,
-    image:   <Image
+    title:"Madrid",
+    image:   <Image className="rounded-3xl"
             src={madrid}
-            alt={"Flamingoes flying over a mountain"}
-            width={500}
+            alt={"Madrid City View"}
+            width={120}
             height="fill"
             priority="false"
             placeholder="blur"
@@ -71,31 +86,39 @@ const myArray = [{
 
 export default async function PostPage(){
 
-        const users = await db.query(`select * from city order by city_name asc`)
-        console.log(users)
-        const wrangleData = users.rows;
+  const commentdata = await db.query(` SELECT comment.id, city.city_name, comment.user_name, comment.user_comment FROM city
+    JOIN comment ON comment.city_id = city.id order by city.city_name asc,comment.id desc`);
+        console.log(commentdata);
+        const wrangleData = commentdata.rows;
         console.log(wrangleData);
 
 
 
     return(
         <>
-        <h1>Read Post Page</h1>
-  {
-  wrangleData.map((data)=><div key={data.id}>
-    <Link href={`/result/${data.id}`}>{data.city_name}</Link>
-    {myArray.map((item) => (
-  <div key={item.id}>
-    {item.id === data.id && <p>{item.image}</p>}
+        <h1 className={Styling.h1}>My All Posts :</h1>
+
+ {       wrangleData.map((data)=><div key={data.id} className={Styling.Result}>
+ {myArray.map((item) => (
+  <div key={item.id} >
+    {item.title === data.city_name && <p>{item.image}</p>}
   </div>
 ))}
-  </div>)
-}
-{myArray.map((item) => (
-  <div key={item.id}>
-    {item.id === 1 && <p>{item.image}</p>}
-  </div>
-))}
+<h2 className="text-2xl">City Name : {data.city_name} - </h2>
+
+<p className="text-2xl"> " {data.user_name} " says : </p>
+<p className="text-2xl">{data.user_comment}</p>
+<button type="submit" onClick={ async function deletedata() {
+"use server";
+await db.query(`delete from comment where id = $1`,[data.id]);
+revalidatePath("/all-post");
+redirect("/all-post");
+
+}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-full">delete</button>
+
+</div>)
+} 
+
 
         </>
     )

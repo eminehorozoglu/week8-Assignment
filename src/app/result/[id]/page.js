@@ -2,74 +2,118 @@
 import {db} from "@/app/utils/dbConnection";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import istanbul from "@/../public/istanbul.jpg";
 import london from "@/../public/london.jpg";
 import madrid from "@/../public/madrid.jpg";
 import newyork from "@/../public/newyork.jpg";
 import paris from "@/../public/paris.jpg";
-import roma from "@/../public/roma.jpg";
+import rome from "@/../public/rome.jpg";
 import Style from "@/app/result/result.module.css"
+
+export const metadata = {
+  title: "City Result Page",
+  description: "Information about the city you have chosen",
+};
+
 const myArray = [{
     id:1,
-    image:   <Image
+    image:   <Image className="rounded-3xl"
             src={london}
-            alt={"Flamingoes flying over a mountain"}
+            alt={"London City View"}
             width={750}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
+          link:   <Link
+  href="https://en.wikipedia.org/wiki/London"
+  className="text-blue-800 font-bold text-2xl"
+>
+  You can find more imformation about city!
+</Link>
 },{
     id: 2,
-    image:   <Image
+    image:   <Image className="rounded-3xl"
             src={paris}
-            alt={"Flamingoes flying over a mountain"}
+            alt={"Paris City View"}
             width={750}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
+          link:   <Link
+  href="https://en.wikipedia.org/wiki/Paris"
+  className="text-blue-800 font-bold text-2xl"
+>
+  You can find more imformation about city!
+</Link>
 },{
     id: 3,
-    image:   <Image
+    image:   <Image className="rounded-3xl"
             src={istanbul}
-            alt={"Flamingoes flying over a mountain"}
+            alt={"Istanbul City View"}
             width={750}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
+  link:   <Link
+  href="https://en.wikipedia.org/wiki/Istanbul"
+  className="text-blue-800 font-bold text-2xl"
+>
+  You can find more imformation about city!
+</Link>
 },{
     id: 4,
-    image:   <Image
+    image:   <Image className="rounded-3xl"
             src={newyork}
-            alt={"Flamingoes flying over a mountain"}
+            alt={"New York City View"}
             width={750}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
+          link:   <Link
+  href="https://en.wikipedia.org/wiki/New_York_City"
+  className="text-blue-800 font-bold text-2xl"
+>
+  You can find more imformation about city!
+</Link>
 },{
     id: 5,
-    image:   <Image
-            src={roma}
-            alt={"Flamingoes flying over a mountain"}
+    image:   <Image className="rounded-3xl"
+            src={rome}
+            alt={"Rome City View"}
             width={750}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
+          link:   <Link
+  href="https://en.wikipedia.org/wiki/Rome"
+  className="text-blue-800 font-bold text-2xl"
+>
+  You can find more imformation about city!
+</Link>
+      
 },{
     id: 6,
-    image:   <Image
+    image:   <Image className="rounded-3xl"
             src={madrid}
-            alt={"Flamingoes flying over a mountain"}
+            alt={"Madrid City View"}
             width={750}
             height="fill"
             priority="false"
             placeholder="blur"
           />,
+          link:   <Link
+  href="https://en.wikipedia.org/wiki/Madrid"
+  className="text-blue-800 font-bold text-2xl"
+>
+  You can find more imformation about city!
+</Link>
 },];
 
 
@@ -100,7 +144,7 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1 order by comment.id
 
       db.query(`insert into comment (user_name, user_comment,city_id) values ($1, $2, $3)`,[userName,userComment,cityId]);
       revalidatePath("/result");
-      redirect("/post");
+      redirect("/all-post");
   
   }
   
@@ -112,18 +156,23 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1 order by comment.id
   wrangleDataCity.map((data)=><div key={data.id}className={Style.FormClass} >
     <h2 className="text-5xl ">{data.city_name}</h2>
     {myArray.map((item) => (
-  <div key={item.id}>
+  <div key={item.id} >
     {item.id === data.id && <p>{item.image}</p>}
   </div>
 ))}
-    <p>{data.city_intro}</p>
+    <p className="text-xl">{data.city_intro}</p>
+    {myArray.map((item) => (
+  <div key={item.id} >
+    {item.id === data.id && <p>{item.link}</p>}
+  </div>
+))}
   </div>)
 }
         <form action={handleSubmit} className={Style.FormClass}  >
             <label htmlFor="user_name">Name:</label>
-            <input type="text" name="user_name" id="user_name" className="text-blue-700" />
-            <label htmlFor="user_comment">Message :</label>
-            <textarea id="user_comment" name="user_comment" className="text-blue-700" rows="4" cols="40"/>
+            <input type="text" name="user_name" id="user_name" className="text-blue-800 rounded-full bg-blue-300" />
+            <label htmlFor="user_comment" >Message :</label>
+            <textarea id="user_comment" name="user_comment" className="text-blue-800 rounded-2xl bg-blue-300" rows="4" cols="40"/>
             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit data</button>
         </form>
      
@@ -131,16 +180,15 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1 order by comment.id
         {
   wrangleData.map((data)=><div htmlFor="id"  key={data.id} className={Style.Comment}>
 
-    <h2 >{data.user_name}</h2>
+    <h2 className="text-2xl">{data.user_name} says :</h2>
     <p>{data.user_comment}</p>
-    <p>{data.id}</p>
     <button type="submit" onClick={ async function deletedata() {
     "use server";
 await db.query(`delete from comment where id = $1`,[data.id]);
 revalidatePath("/result");
-redirect("/result/1");
+redirect("/all-post");
 
-}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">delete</button>
+}} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-full">delete</button>
   </div>)
 }
 
