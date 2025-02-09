@@ -8,7 +8,7 @@ export default function Header() {
       <nav className={styling.menu}>
         <Link href={"/"}>Home   </Link>
         <Link href={"/post"}>Posts   </Link>
-        <Link href={"/all-post"}>All Post </Link>
+        <Link href={"/all-post"}>All Posts </Link>
 
        
 

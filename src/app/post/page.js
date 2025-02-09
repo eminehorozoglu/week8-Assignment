@@ -3,7 +3,7 @@ import Link from "next/link";
 import Style from "@/app/post/post.module.css"
 
 export const metadata = {
-  title: "City options",
+  title: "City Options",
   description: "You can see the information of the city you want, just select it.",
 };
 

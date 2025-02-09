@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Project name: My City Blog
 
-## Getting Started
+Vercel link: 
 
-First, run the development server:
+Repo link: https://github.com/eminehorozoglu/week8-Assignment
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Project description:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+It is a program where you can get information about some cities and comment on them.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+You can access the links of the cities from the Posts page. From here, you will be directed to the page where you can find information about the city you want. On this page, you can access information about the city, comment on the city and read the comments made. You can also delete any comment you want.Posts page city names are listed from largest to smallest.The comments under cities are listed from newest to oldest.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The page where all the posts are located is the All Posts page. Here, you can see the comments of all cities and delete any comment you want.All Posts, city names are listed from largest to smallest and comments are listed from newest to oldest.
 
-## Learn More
+Database schema:
 
-To learn more about Next.js, take a look at the following resources:
+![Database Schema](./public/database-schema.jpg)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Databese on Supabase: 
 
-## Deploy on Vercel
+![Database Schema](./public/database.jpg)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+My Project Plan :
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![Database Schema](./public/trello.jpg)
+
+
+Reflections:
+
+1- I tried and applied the sql query on supabase to save the comments under the city to the correct page.
+
+2- I used the param value to save the comments under the correct city.
+At first, I could not provide a link to the cities on the Posts page. I was able to connect to the page using the code href={`/result/${data.id}`}>.
+
+3- It was difficult to create a function for the delete button. I created a function inside the button and applied the delete command.
+
+4- I had difficulty in bringing the pictures and information pages of the cities to the relevant city and I solved the problem by using Array.
+
+5- Since I could not find how to bring the [id] on the result page to the page with revalidatePath() and redirect(), I had to redirect to the All Posts page.
+
+6- I used both tailwind and module.css to style the pages.

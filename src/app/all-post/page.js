@@ -12,7 +12,7 @@ import rome from "@/../public/rome.jpg";
 import Styling from "@/app/all-post/allPost.module.css"
 
 export const metadata = {
-  title: "Comments about cities",
+  title: "Comments About Cities",
   description: "You can delete comments about cities if you want.",
 };
 

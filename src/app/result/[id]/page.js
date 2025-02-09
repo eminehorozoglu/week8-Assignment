@@ -13,7 +13,7 @@ import rome from "@/../public/rome.jpg";
 import Style from "@/app/result/result.module.css"
 
 export const metadata = {
-  title: "City Result Page",
+  title: "City Page",
   description: "Information about the city you have chosen",
 };
 
@@ -143,7 +143,7 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1 order by comment.id
       const cityId =CommentParams.id;
 
       db.query(`insert into comment (user_name, user_comment,city_id) values ($1, $2, $3)`,[userName,userComment,cityId]);
-      revalidatePath("/result");
+      revalidatePath("/all-post");
       redirect("/all-post");
   
   }
@@ -170,9 +170,9 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1 order by comment.id
 }
         <form action={handleSubmit} className={Style.FormClass}  >
             <label htmlFor="user_name">Name:</label>
-            <input type="text" name="user_name" id="user_name" className="text-blue-800 rounded-full bg-blue-300" />
+            <input type="text" name="user_name" id="user_name" className="text-blue-800  bg-blue-300" />
             <label htmlFor="user_comment" >Message :</label>
-            <textarea id="user_comment" name="user_comment" className="text-blue-800 rounded-2xl bg-blue-300" rows="4" cols="40"/>
+            <textarea id="user_comment" name="user_comment" className="text-blue-800 rounded-xl bg-blue-300" rows="4" cols="40"/>
             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit data</button>
         </form>
      
@@ -185,10 +185,11 @@ JOIN comment ON comment.city_id = city.id WHERE city.id = $1 order by comment.id
     <button type="submit" onClick={ async function deletedata() {
     "use server";
 await db.query(`delete from comment where id = $1`,[data.id]);
-revalidatePath("/result");
+revalidatePath("/all-post");
 redirect("/all-post");
 
 }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-full">delete</button>
+
   </div>)
 }
 
