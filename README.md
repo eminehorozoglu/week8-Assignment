@@ -1,6 +1,6 @@
 Project name: My City Blog
 
-Vercel link: 
+Vercel link: https://week8-assignment-orcin.vercel.app/
 
 Repo link: https://github.com/eminehorozoglu/week8-Assignment
 
